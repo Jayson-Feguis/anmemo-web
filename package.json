@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "engines": {
-    "node": "16.x"
+    "node": "7.x"
   },
   "private": true,
   "dependencies": {
@@ -60,8 +60,7 @@
     "start": "env-cmd -f .env.local react-scripts start",
     "build": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "heroku-prebuild": "npm install --legacy-peer-deps"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": [
