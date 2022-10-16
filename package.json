@@ -1,6 +1,9 @@
 {
   "name": "client",
   "version": "0.1.0",
+  "engines": {
+    "node": "16.x"
+  },
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -57,7 +60,8 @@
     "start": "env-cmd -f .env.local react-scripts start",
     "build": "env-cmd -f .env.production react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "heroku-prebuild": "npm install --legacy-peer-deps"
   },
   "eslintConfig": {
     "extends": [
