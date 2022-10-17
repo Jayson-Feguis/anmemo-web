@@ -14,7 +14,7 @@ import "antd/dist/antd.min.css";
 import useStyles from "./style";
 import _ from "lodash";
 import { useDispatch, useSelector } from "react-redux";
-import { actions, registerAction } from "../../redux/action/user/actions";
+import { actions } from "../../redux/action/user/actions";
 
 const account_type = [
   {
@@ -41,34 +41,34 @@ function RegistrationCard(props) {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    dispatch(registerAction(actions.REGISTER_REQUEST, values));
-    setClick(true);
+    // dispatch(registerAction(actions.REGISTER_REQUEST, values));
+    // setClick(true);
   };
 
   const onFinishFailed = (errorInfo) => {
     message.error("There's something went wrong! Check your inputs.");
   };
 
-  useEffect(() => {
-    if (!_.isNil(department.data)) {
-      setDepartmentList(department.data?.result);
-    }
-    if (!_.isNil(user.data)) {
-      if (!_.isNil(user.success_msg) && isClick) {
-        message.success(user.success_msg.message);
-        form.resetFields();
-      }
-    } else {
-      if (!_.isNil(user.error_msg) && isClick) {
-        message.error(user.error_msg);
-      }
-      if (!_.isNil(user.success_msg) && isClick) {
-        message.success(user.success_msg.message);
+  // useEffect(() => {
+  //   if (!_.isNil(department.data)) {
+  //     setDepartmentList(department.data?.result);
+  //   }
+  //   if (!_.isNil(user.data)) {
+  //     if (!_.isNil(user.success_msg)) {
+  //       message.success(user.success_msg.message);
+  //       form.resetFields();
+  //     }
+  //   } else {
+  //     if (!_.isNil(user.error_msg)) {
+  //       message.error(user.error_msg);
+  //     }
+  //     if (!_.isNil(user.success_msg) ) {
+  //       message.success(user.success_msg.message);
 
-        form.resetFields();
-      }
-    }
-  }, [department, user]);
+  //       form.resetFields();
+  //     }
+  //   }
+  // }, [department, user]);
 
   const filteredDept = department?.data?.result.filter(
     (dept) => dept.DEPT_STATUS !== 2

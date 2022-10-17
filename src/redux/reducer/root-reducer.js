@@ -59,7 +59,7 @@ const reducers = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  if (action.type === actions.LOGOUT2_REQUEST) state = undefined;
+  if (action.type === actions.LOGOUT_REQUEST) state = undefined;
   return reducers(state, action);
 };
 

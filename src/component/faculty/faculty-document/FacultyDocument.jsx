@@ -1,5 +1,5 @@
 import React, { useMemo, useState, useEffect } from "react";
-import { Table, Button, Input, Modal } from "antd";
+import { Table, Button, Select, Modal, Form } from "antd";
 import "antd/dist/antd.min.css";
 import PropTypes from "prop-types";
 import { Box, Tooltip, Typography } from "@mui/material";
@@ -21,6 +21,8 @@ import io from "socket.io-client";
 import { MdDownload } from "react-icons/md";
 
 import FileViewer from "react-file-viewer";
+
+const { Option } = Select;
 
 const onError = (e) => {
   console.log(e, "error in file-viewer");
@@ -161,6 +163,23 @@ function FacultyDocument(props) {
     file_name: null,
     file_extension: null,
   });
+  const [allDocuments, setAllDocuments] = useState(null);
+  const [urgencyLevel, setUrgencyLevel] = useState(0);
+  const level = [
+    { id: 0, title: "All" },
+    {
+      id: 1,
+      title: "Regular",
+    },
+    {
+      id: 2,
+      title: "Priority",
+    },
+    {
+      id: 3,
+      title: "Urgent",
+    },
+  ];
   // useMemo(() => {
   //   dispatch(
   //     searchFacultyFilesAction(actions.SEARCH_FACULTY_FILES_REQUEST, {
@@ -251,8 +270,37 @@ function FacultyDocument(props) {
     "GIF",
   ];
 
+  const handleOnChangeUrgencyLevel = (value) => {
+    setUrgencyLevel(value);
+  };
+
+  useEffect(() => {
+    console.log(urgencyLevel);
+    if (!_.isNil(facultyFiles.data)) {
+      if (facultyFiles.data.result?.document?.length > 0) {
+        const filteredDocument =
+          Number(urgencyLevel) === 0
+            ? facultyFiles.data?.result?.document
+            : facultyFiles.data?.result?.document?.filter(
+                (value) => Number(value.URGENCY_LEVEL) === Number(urgencyLevel)
+              );
+        console.log(filteredDocument);
+        setAllDocuments(filteredDocument);
+      }
+    }
+  }, [urgencyLevel]);
+
   return (
-    <Box padding="20px" height="calc(100vh-65px)">
+    <Box
+      padding="20px"
+      background="red"
+      sx={{
+        minHeight: "100vh !important",
+        display: "flex",
+        justifyContent: "start",
+        flexDirection: "column",
+      }}
+    >
       {/* <Box width={{ xs: "100%", md: "400px" }}>
         <Input
           autofocus
@@ -261,6 +309,21 @@ function FacultyDocument(props) {
           onChange={(e) => setSearchFilter(e.target.value)}
         />
       </Box> */}
+      <Form.Item
+        label="Filter by Urgency Level"
+        labelCol={{ span: 24 }}
+        wrapperCol={{ span: 1 }}
+      >
+        <Select
+          defaultValue={level[0].title}
+          onChange={handleOnChangeUrgencyLevel}
+          style={{ width: "150px" }}
+        >
+          {level.map((value) => (
+            <Option key={value.id}>{value.title}</Option>
+          ))}
+        </Select>
+      </Form.Item>
       <Table
         columns={
           !_.isNil(facultyFiles.data)
@@ -269,17 +332,12 @@ function FacultyDocument(props) {
               : null
             : null
         }
-        dataSource={
-          !_.isNil(facultyFiles.data)
-            ? facultyFiles.data.result?.document?.length > 0
-              ? facultyFiles.data.result.document
-              : null
-            : null
-        }
+        dataSource={allDocuments}
         scroll={{
           x: 1000,
           y: 450,
         }}
+        className={classes.tablebox}
       />
       <SendFile
         documentID={!_.isNil(document) ? document.id : null}

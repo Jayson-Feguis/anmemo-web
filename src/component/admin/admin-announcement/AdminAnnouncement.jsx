@@ -214,7 +214,6 @@ function AdminAnnouncement(props) {
       display="flex"
       flexDirection="column"
       justifyContent="start"
-      marginBottom="100px"
       padding={{ xs: "10px", md: "0px 0px 0px 250px" }}
       position="relative"
       overflow="hidden"

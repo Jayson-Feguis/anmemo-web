@@ -17,10 +17,13 @@ function Editor(props) {
   return (
     <>
       <AdminNavBar />
-      <Box padding={{ xs: "10px", md: "0px 0px 0px 250px" }}>
-        <h1>Text Editor</h1>
+      <Box
+        padding={{ xs: "10px", md: "0px 0px 0px 250px" }}
+        height="calc(100vh-65px)"
+      >
+        <h1>Generate File</h1>
         <SunEditor
-          height="100%"
+          height="calc(100vh - 150px)"
           setOptions={{
             height: "100%",
             buttonList: buttonList.complex,

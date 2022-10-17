@@ -13,10 +13,6 @@ export const actions = {
   LOGOUT2_SUCCESS: "LOGOUT2_SUCCESS",
   LOGOUT2_FAILED: "LOGOUT2_FAILED",
 
-  REGISTER1_REQUEST: "REGISTER_REQUEST",
-  REGISTER1_SUCCESS: "REGISTER_SUCCESS",
-  REGISTER1_FAILED: "REGISTER_FAILED",
-
   EMAIL_REQUEST: "EMAIL_REQUEST",
   EMAIL_SUCCESS: "EMAIL_SUCCESS",
   EMAIL_FAILED: "EMAIL_FAILED",
@@ -77,25 +73,6 @@ export function logoutAction(action, payload) {
   } else {
     return {
       type: actions.LOGOUT_FAILED,
-      payload,
-    };
-  }
-}
-
-export function registerAction(action, payload) {
-  if (_.isEqual(action, actions.REGISTER1_REQUEST)) {
-    return {
-      type: actions.REGISTER1_REQUEST,
-      payload,
-    };
-  } else if (_.isEqual(action, actions.REGISTER1_SUCCESS)) {
-    return {
-      type: actions.REGISTER1_SUCCESS,
-      payload,
-    };
-  } else {
-    return {
-      type: actions.REGISTER1_FAILED,
       payload,
     };
   }

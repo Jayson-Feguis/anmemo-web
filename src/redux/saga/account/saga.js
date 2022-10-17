@@ -1,5 +1,5 @@
 import { put, call, takeLatest } from "redux-saga/effects";
-import { accountRequest, userRequest } from "../../../request/request";
+import { accountRequest } from "../../../request/request";
 import {
   actions,
   approveAccountAction,
@@ -97,7 +97,7 @@ function* restoreAccount(act) {
 
 function* register(act) {
   try {
-    const response = yield call(userRequest.register, act.payload);
+    const response = yield call(accountRequest.register, act.payload);
     if (!_.isNil(response.data)) {
       yield put(registerAction(actions.REGISTER_SUCCESS, response.data));
       yield new Promise(() => {

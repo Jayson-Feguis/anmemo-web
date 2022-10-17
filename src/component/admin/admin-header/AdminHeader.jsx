@@ -36,6 +36,18 @@ const AdminHeader = (props) => {
       return null;
     }
   }
+
+  function userType2(type) {
+    if (type === 1) {
+      return "Administrator";
+    } else if (type === 2) {
+      return "Secretary";
+    } else if (type === 4) {
+      return "Dean";
+    } else {
+      return null;
+    }
+  }
   return (
     <AppBar
       position="sticky"
@@ -125,8 +137,8 @@ const AdminHeader = (props) => {
             }}
           >
             {!_.isNil(user.data)
-              ? user.data.result.length > 0
-                ? userType(user.data.result[0].ACCOUNT_TYPE)
+              ? user?.data?.result.length > 0
+                ? userType(user?.data?.result[0].ACCOUNT_TYPE)
                 : null
               : null}
           </Typography>
@@ -139,8 +151,30 @@ const AdminHeader = (props) => {
             }}
           >
             <Notification />
+            <Box
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Profile />
 
-            <Profile />
+              <Typography
+                sx={{
+                  fontSize: "13px",
+                  color: "white",
+                  marginLeft:
+                    user?.data?.result[0].ACCOUNT_TYPE === 1
+                      ? "-18px"
+                      : user?.data?.result[0].ACCOUNT_TYPE === 4
+                      ? "-7px"
+                      : user?.data?.result[0].ACCOUNT_TYPE === 2
+                      ? "-10px"
+                      : null,
+                }}
+              >
+                {userType2(user?.data?.result[0].ACCOUNT_TYPE)}
+              </Typography>
+            </Box>
           </Box>
         </Toolbar>
       </Container>

@@ -16,7 +16,7 @@ const objPayload = (state, params) => {
     is_success: params[1],
     error_msg: params[2],
     success_msg: params[3],
-    data: params[4] ?? state.params,
+    data: params[4],
     updated_at: params[5],
   };
 };

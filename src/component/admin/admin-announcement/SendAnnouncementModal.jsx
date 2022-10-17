@@ -118,7 +118,7 @@ function SendAnnouncementModal(props) {
               : true || confirmLoading
           }
         >
-          {confirmLoading ? <Spin /> : "Send"}
+          {confirmLoading ? <Spin /> : "Post"}
         </Button>,
       ]}
     >

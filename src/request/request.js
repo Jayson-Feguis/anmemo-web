@@ -3,7 +3,6 @@ import axiosInstance from "./axios_instance";
 
 export const userRequest = {
   login: (data) => axiosInstance.post(api.LOGIN, data),
-  register: (data) => axiosInstance.post(api.REGISTER, data),
   getemail: (data) => axiosInstance.post(api.GETEMAIL, data),
   resetpass: (data) => axiosInstance.post(api.RESETPASS, data),
   logout2: (data) => axiosInstance.post(api.LOGOUT2, data),
@@ -26,6 +25,7 @@ export const accountRequest = {
   deleteAccount: (data) => axiosInstance.post(api.DELETE_ACCOUNT, data),
   approveAccount: (data) => axiosInstance.post(api.APPROVE_ACCOUNT, data),
   restoreAccount: (data) => axiosInstance.post(api.RESTORE_ACCOUNT, data),
+  register: (data) => axiosInstance.post(api.REGISTER, data),
 };
 
 export const sendFileRequest = {

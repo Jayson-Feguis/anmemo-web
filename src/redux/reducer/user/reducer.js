@@ -30,15 +30,10 @@ const userReducer = (state = initState, act) => {
     case actions.LOGOUT2_REQUEST:
       return objPayload(state, [true, false, null, null, null]);
     case actions.LOGOUT2_SUCCESS:
-      return initState;
+      return objPayload(state, [true, false, null, null, null]);
     case actions.LOGOUT2_FAILED:
       return objPayload(state, [false, false, act.payload, null]);
-    case actions.REGISTER1_REQUEST:
-      return objPayload(state, [true, false, null, null, null]);
-    case actions.REGISTER1_SUCCESS:
-      return objPayload(state, [false, true, null, act.payload, null]);
-    case actions.REGISTER1_FAILED:
-      return objPayload(state, [false, false, act.payload, null]);
+
     case actions.EMAIL_REQUEST:
       return objPayload(state, [true, false, null, null, null]);
     case actions.EMAIL_SUCCESS:

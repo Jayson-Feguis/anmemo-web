@@ -28,6 +28,7 @@ import { IoIosCloudUpload } from "react-icons/io";
 import { SECONDARY_COLOR, PRIMARY_COLOR } from "../../../utils/constant";
 import FileViewer from "react-file-viewer";
 import UploadModal from "./UploadModal";
+import { MdDownload } from "react-icons/md";
 const onError = (e) => {
   console.log(e, "error in file-viewer");
 };
@@ -50,17 +51,7 @@ function AdminSendFile(props) {
       dataIndex: "DOCUMENT_NAME",
       key: "DOCUMENT_NAME",
       width: 50,
-      render: (document) => (
-        <Tooltip title={"Download " + document}>
-          <a
-            href={process.env.REACT_APP_DOCUMENT_STATIC_ENDPOINT + document}
-            target="_blank"
-            rel="noreferrer"
-          >
-            {document}
-          </a>
-        </Tooltip>
-      ),
+      render: (document) => <Typography>{document}</Typography>,
       filterDropdown: ({
         setSelectedKeys,
         selectedKeys,
@@ -273,6 +264,19 @@ function AdminSendFile(props) {
               }
             />
           </Tooltip>
+          <Tooltip title="Download">
+            <a
+              href={
+                process.env.REACT_APP_DOCUMENT_STATIC_ENDPOINT +
+                record.DOCUMENT_NAME
+              }
+              download={record.DOCUMENT_NAME}
+              className={classes.btnDownload}
+              target="_blank"
+            >
+              <MdDownload />{" "}
+            </a>
+          </Tooltip>
         </Box>
       ),
     },
@@ -438,7 +442,6 @@ function AdminSendFile(props) {
       position="relative"
       overflow="hidden"
       minHeight="calc(100vh - 65px)"
-      marginBottom="100px"
     >
       <Box
         sx={{

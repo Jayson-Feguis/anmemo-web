@@ -39,12 +39,13 @@ function LoginCard(props) {
   const { showDrawer } = props;
 
   const onFinish = (values) => {
-    setClick(false);
+    setClick(true);
     dispatch(loginAction(actions.LOGIN_REQUEST, values));
   };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
+    setClick(false);
   };
 
   useEffect(() => {
@@ -84,18 +85,29 @@ function LoginCard(props) {
 
       if (user.data.auth === false) {
         message.warning(user.data.message);
+
+        setClick(false);
       } else {
-        if (user.data.result[0].ACCOUNT_TYPE === 1) {
+        if (user.data.result[0].ACCOUNT_TYPE === 1 && isClick) {
           navigate(ROUTES.ADMIN);
-        } else if (user.data.result[0].ACCOUNT_TYPE === 2) {
+
+          setClick(false);
+        } else if (user.data.result[0].ACCOUNT_TYPE === 2 && isClick) {
           navigate(ROUTES.SECRETARY);
+
+          setClick(false);
         } else if (
-          user.data.result[0].ACCOUNT_TYPE === 3 ||
-          user.data.result[0].ACCOUNT_TYPE === 5
+          (user.data.result[0].ACCOUNT_TYPE === 3 ||
+            user.data.result[0].ACCOUNT_TYPE === 5) &&
+          isClick
         ) {
-          navigate(ROUTES.FACULTY_HOME);
-        } else if (user.data.result[0].ACCOUNT_TYPE === 4) {
+          navigate(ROUTES.FACULTY_ANNOUNCEMENT);
+
+          setClick(false);
+        } else if (user.data.result[0].ACCOUNT_TYPE === 4 && isClick) {
           navigate(ROUTES.DEAN);
+
+          setClick(false);
         }
       }
     }

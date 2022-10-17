@@ -5,6 +5,7 @@ import {
   Container,
   IconButton,
   Toolbar,
+  Typography,
 } from "@mui/material";
 import React from "react";
 import Message from "./Message";
@@ -14,12 +15,22 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { navItems } from "./nav-items";
 import { useNavigate, useLocation } from "react-router-dom";
 import { HEADER_COLOR, SECONDARY_COLOR } from "../../../utils/constant";
-
+import { useSelector } from "react-redux";
 const FacultyHeader = (props) => {
   const { handleDrawerToggle } = props;
   const navigate = useNavigate();
   const location = useLocation();
   let navigationItems = navItems;
+  const user = useSelector((state) => state.user);
+  function userType(type) {
+    if (type === 3) {
+      return "Faculty Member";
+    } else if (type === 5) {
+      return "Program Coordinator";
+    } else {
+      return null;
+    }
+  }
 
   return (
     <AppBar
@@ -82,7 +93,28 @@ const FacultyHeader = (props) => {
           >
             <Notification />
             {/* <Message /> */}
-            <Profile />
+            <Box
+              flexDirection="column"
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Profile />
+
+              <Typography
+                sx={{
+                  fontSize: "13px",
+                  color: "white",
+                  marginLeft:
+                    user?.data?.result[0].ACCOUNT_TYPE === 3
+                      ? "-20px"
+                      : user?.data?.result[0].ACCOUNT_TYPE === 5
+                      ? "-40px"
+                      : null,
+                }}
+              >
+                {userType(user?.data?.result[0].ACCOUNT_TYPE)}
+              </Typography>
+            </Box>
           </Box>
         </Toolbar>
       </Container>

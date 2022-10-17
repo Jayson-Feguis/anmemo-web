@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Form, Spin } from "antd";
+import { Button, Modal, Form, Spin, Radio } from "antd";
 import {
   Autocomplete,
   TextField,
@@ -38,9 +38,11 @@ function SendFile(props) {
   const [urgencyLevel, setUrgencyLevel] = useState(1);
   const user = useSelector((state) => state.user);
   const [isClick, setClick] = useState(false);
+  const [sendType, setSendType] = useState(1);
   let formData = new FormData();
 
   const onFinish = (values) => {
+    console.log(receiver);
     setClick(true);
     socket.emit("send_document", { message: "get_document" });
     socket.emit("send_document", { message: "get_notification" });
@@ -79,6 +81,18 @@ function SendFile(props) {
       alert("Sent successfully");
     }
   }, [isClick]);
+
+  useEffect(() => {
+    console.log(sendType);
+    if (sendType === 2) {
+      const newReceiver = accountList?.filter(
+        (account) => account.ACCOUNT_ID !== user.data?.result[0]?.ACCOUNT_ID
+      );
+      setReceiver(newReceiver);
+    } else {
+      setReceiver(null);
+    }
+  }, [sendType]);
 
   return (
     <Modal
@@ -158,33 +172,45 @@ function SendFile(props) {
             </ToggleButton>
           </ToggleButtonGroup>
         </Form.Item>
-        <Form.Item>
-          <Autocomplete
-            multiple
-            id="tags-standard"
-            options={accountList?.filter(
-              (account) =>
-                account.ACCOUNT_ID !== user.data?.result[0]?.ACCOUNT_ID
-            )}
-            onChange={(event, value) => setReceiver(value)}
-            getOptionLabel={(option) =>
-              "(" +
-              option.ACCOUNT_ID +
-              ") : " +
-              option.ACCOUNT_FIRSTNAME +
-              " " +
-              option.ACCOUNT_LASTNAME
-            }
-            renderInput={(params) => (
-              <TextField
-                {...params}
-                variant="standard"
-                label="Search Names"
-                placeholder="Ex: (ID) : Juan Dela Cruz"
-              />
-            )}
-          />
+        <Form.Item label="Send Type">
+          <Radio.Group
+            defaultValue={sendType}
+            onChange={(e) => setSendType(e.target.value)}
+            style={{ width: "100%" }}
+          >
+            <Radio value={1}>Custom send</Radio>
+            <Radio value={2}>Send to all</Radio>
+          </Radio.Group>
         </Form.Item>
+        {sendType === 1 && (
+          <Form.Item>
+            <Autocomplete
+              multiple
+              id="tags-standard"
+              options={accountList?.filter(
+                (account) =>
+                  account.ACCOUNT_ID !== user.data?.result[0]?.ACCOUNT_ID
+              )}
+              onChange={(event, value) => setReceiver(value)}
+              getOptionLabel={(option) =>
+                "(" +
+                option.ACCOUNT_ID +
+                ") : " +
+                option.ACCOUNT_FIRSTNAME +
+                " " +
+                option.ACCOUNT_LASTNAME
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  variant="standard"
+                  label="Search Names"
+                  placeholder="Ex: (ID) : Juan Dela Cruz"
+                />
+              )}
+            />
+          </Form.Item>
+        )}
       </Form>
     </Modal>
   );

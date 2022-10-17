@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from "react";
-import { Table, Input } from "antd";
+import React, { useState, useMemo, useEffect } from "react";
+import { Table, Select, Form } from "antd";
 import "antd/dist/antd.min.css";
 import { Box } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -13,10 +13,14 @@ import moment from "moment";
 import { BiSearchAlt2 } from "react-icons/bi";
 import { CustomSearch } from "../../Component";
 import io from "socket.io-client";
+import useStyles from "./style";
+
+const { Option } = Select;
 
 const socket = io.connect(process.env.REACT_APP_SOCKET_SERVER);
 
 function FacultyMemorandum(props) {
+  const classes = useStyles();
   const columns = [
     {
       title: "Memorandum Name",
@@ -99,6 +103,23 @@ function FacultyMemorandum(props) {
   const facultyFiles = useSelector((state) => state.facultyfiles);
   const user = useSelector((state) => state.user);
   const [searchFilter, setSearchFilter] = useState("");
+  const [allMemorandums, setAllMemorandums] = useState(null);
+  const [urgencyLevel, setUrgencyLevel] = useState(0);
+  const level = [
+    { id: 0, title: "All" },
+    {
+      id: 1,
+      title: "Regular",
+    },
+    {
+      id: 2,
+      title: "Priority",
+    },
+    {
+      id: 3,
+      title: "Urgent",
+    },
+  ];
 
   // useEffect(() => {
   //   dispatch(
@@ -128,8 +149,28 @@ function FacultyMemorandum(props) {
     });
   }, [socket]);
 
+  const handleOnChangeUrgencyLevel = (value) => {
+    setUrgencyLevel(value);
+  };
+
+  useEffect(() => {
+    console.log(urgencyLevel);
+    if (!_.isNil(facultyFiles.data)) {
+      if (facultyFiles.data.result?.memorandum?.length > 0) {
+        const filteredMemorandum =
+          Number(urgencyLevel) === 0
+            ? facultyFiles.data?.result?.memorandum
+            : facultyFiles.data?.result?.memorandum?.filter(
+                (value) => Number(value.URGENCY_LEVEL) === Number(urgencyLevel)
+              );
+        console.log(filteredMemorandum);
+        setAllMemorandums(filteredMemorandum);
+      }
+    }
+  }, [urgencyLevel]);
+
   return (
-    <Box padding="20px">
+    <Box padding="20px" minHeight="100vh !important">
       {/* <Box width={{ xs: "100%", md: "400px" }}>
         <Input
           autofocus
@@ -138,6 +179,21 @@ function FacultyMemorandum(props) {
           onChange={(e) => setSearchFilter(e.target.value)}
         />
       </Box> */}
+      <Form.Item
+        label="Filter by Urgency Level"
+        labelCol={{ span: 24 }}
+        wrapperCol={{ span: 1 }}
+      >
+        <Select
+          defaultValue={level[0].title}
+          onChange={handleOnChangeUrgencyLevel}
+          style={{ width: "150px" }}
+        >
+          {level.map((value) => (
+            <Option key={value.id}>{value.title}</Option>
+          ))}
+        </Select>
+      </Form.Item>
       <Table
         columns={
           !_.isNil(facultyFiles.data)
@@ -146,17 +202,12 @@ function FacultyMemorandum(props) {
               : null
             : null
         }
-        dataSource={
-          !_.isNil(facultyFiles.data)
-            ? facultyFiles.data.result?.memorandum?.length > 0
-              ? facultyFiles.data.result.memorandum
-              : null
-            : null
-        }
+        dataSource={allMemorandums}
         scroll={{
           x: 1000,
           y: 450,
         }}
+        className={classes.tablebox}
       />
     </Box>
   );

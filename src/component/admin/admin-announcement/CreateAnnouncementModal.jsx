@@ -55,6 +55,7 @@ function CreateAnnouncementModal(props) {
       onOk={handleOkAnnouncement}
       confirmLoading={confirmLoading}
       onCancel={handleCancelAnnouncement}
+      width="min(100%, 1000px)"
       footer={[
         <Button
           form="createAnnouncement"

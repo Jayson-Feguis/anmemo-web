@@ -54,6 +54,7 @@ function AdminAccount(props) {
       key: "ACCOUNT_ID",
       defaultSortOrder: "descend",
       sorter: (a, b) => a.ACCOUNT_ID - b.ACCOUNT_ID,
+      hidden: true,
     },
     {
       title: "Picture",
@@ -668,15 +669,14 @@ function AdminAccount(props) {
               <Typography style={{ color: "white" }}>Export to CSV</Typography>
             </CSVLink>
           </MUIButton>
-          <Button
-            type="primary"
-            shape="round"
-            icon={<IoIosAdd />}
+          <MUIButton
+            variant="contained"
+            startIcon={<IoIosAdd />}
             onClick={showModalAdd}
           >
             {" "}
             Add Account{" "}
-          </Button>
+          </MUIButton>
         </Box>
         <Table
           columns={columns}

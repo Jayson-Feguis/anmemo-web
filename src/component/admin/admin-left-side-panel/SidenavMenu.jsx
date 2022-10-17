@@ -89,7 +89,7 @@ const SidenavMenu = (props) => {
     },
     {
       id: "7",
-      label: "Text Editor",
+      label: "Generate File",
       link: ROUTES.EDITOR,
       icon: <TextFields />,
     },
@@ -111,7 +111,7 @@ const SidenavMenu = (props) => {
     },
     {
       id: "7",
-      label: "Text Editor",
+      label: "Generate File",
       link: ROUTES.SECEDITOR,
       icon: <TextFields />,
     },
@@ -139,7 +139,7 @@ const SidenavMenu = (props) => {
     },
     {
       id: "7",
-      label: "Text Editor",
+      label: "Generate File",
       link: ROUTES.DEANEDITOR,
       icon: <TextFields />,
     },

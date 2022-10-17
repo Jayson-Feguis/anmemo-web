@@ -25,6 +25,7 @@ function AdminAudit(props) {
       key: "AUDIT_ID",
       defaultSortOrder: "descend",
       sorter: (a, b) => a.AUDIT_ID - b.AUDIT_ID,
+      hidden: true,
     },
     {
       title: "Name",
